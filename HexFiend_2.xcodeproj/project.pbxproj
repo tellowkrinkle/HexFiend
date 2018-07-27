@@ -59,6 +59,16 @@
 		A51D0E9620F2C21500B55775 /* HFTextRepresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A437380CDD4EDD000F7550 /* HFTextRepresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A51D0E9720F2C21500B55775 /* HFTextRepresenter_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D061A28E10042D6A0049B8B8 /* HFTextRepresenter_Internal.h */; };
 		A51D0E9820F2C21500B55775 /* HFTextRepresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A437390CDD4EDD000F7550 /* HFTextRepresenter.m */; };
+		A51D0EB420F2DA5F00B55775 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A51D0EB320F2DA5F00B55775 /* AppDelegate.m */; };
+		A51D0EB720F2DA5F00B55775 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A51D0EB620F2DA5F00B55775 /* ViewController.m */; };
+		A51D0EBA20F2DA5F00B55775 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A51D0EB820F2DA5F00B55775 /* Main.storyboard */; };
+		A51D0EBC20F2DA6100B55775 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A51D0EBB20F2DA6100B55775 /* Assets.xcassets */; };
+		A51D0EBF20F2DA6100B55775 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A51D0EBD20F2DA6100B55775 /* LaunchScreen.storyboard */; };
+		A51D0EC220F2DA6100B55775 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A51D0EC120F2DA6100B55775 /* main.m */; };
+		A51D0ECE20F2DCE200B55775 /* HFHexTextRepresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D026C7BF0CDD54D00082279E /* HFHexTextRepresenter.m */; };
+		A51D0ECF20F2DCE500B55775 /* HFHexTextRepresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = D026C7BE0CDD54D00082279E /* HFHexTextRepresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A51D0ED820F2DF3300B55775 /* HexFiend_Framework_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5EF294A20F187B700CA7B39 /* HexFiend_Framework_iOS.framework */; };
+		A51D0ED920F2DF3300B55775 /* HexFiend_Framework_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A5EF294A20F187B700CA7B39 /* HexFiend_Framework_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A53B7D1A1E9185CF00CA3977 /* HFTestHashing.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D149300D8A37580018296B /* HFTestHashing.m */; };
 		A550A7191F7877F8001C79C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A550A7181F7877F8001C79C7 /* main.m */; };
 		A550A7201F787831001C79C7 /* hexf in Resources */ = {isa = PBXBuildFile; fileRef = A550A7161F7877F8001C79C7 /* hexf */; };
@@ -299,6 +309,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A51D0EDA20F2DF3300B55775 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5EF28C620F187B700CA7B39;
+			remoteInfo = HexFiend_Framework_iOS;
+		};
 		A550A7211F787A60001C79C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -337,6 +354,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		A51D0EDC20F2DF3300B55775 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A51D0ED920F2DF3300B55775 /* HexFiend_Framework_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D01E7BDA0CDC540700943F9E /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,6 +419,16 @@
 		A51D0E7D20F1D01A00B55775 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		A51D0E8B20F1E56600B55775 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		A51D0E9020F2A8D200B55775 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		A51D0EB020F2DA5F00B55775 /* HexFiendlingMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexFiendlingMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A51D0EB220F2DA5F00B55775 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A51D0EB320F2DA5F00B55775 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A51D0EB520F2DA5F00B55775 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		A51D0EB620F2DA5F00B55775 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A51D0EB920F2DA5F00B55775 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A51D0EBB20F2DA6100B55775 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A51D0EBE20F2DA6100B55775 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A51D0EC020F2DA6100B55775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A51D0EC120F2DA6100B55775 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A550A7161F7877F8001C79C7 /* hexf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hexf; sourceTree = BUILT_PRODUCTS_DIR; };
 		A550A7181F7877F8001C79C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A554E0CD20DF2CD3001B4C48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpenDriveDialog.xib; sourceTree = "<group>"; };
@@ -635,6 +673,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A51D0EAD20F2DA5F00B55775 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51D0ED820F2DF3300B55775 /* HexFiend_Framework_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A550A7131F7877F8001C79C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -693,6 +739,7 @@
 				9408FBFA19DD72DE004F800E /* HexFiend_Framework Tests.xctest */,
 				A550A7161F7877F8001C79C7 /* hexf */,
 				A5EF294A20F187B700CA7B39 /* HexFiend_Framework_iOS.framework */,
+				A51D0EB020F2DA5F00B55775 /* HexFiendlingMobile.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -706,6 +753,7 @@
 				D047E33B1022CF2B00EF307B /* PrivilegedHelper */,
 				A550A7171F7877F8001C79C7 /* hexf */,
 				D00C166E0FF4925A006D021F /* HexFiendling */,
+				A51D0EB120F2DA5F00B55775 /* HexFiendlingMobile */,
 				D05390411E2192C000F9AAC1 /* configs */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -788,6 +836,22 @@
 			);
 			name = FrameworkTests;
 			path = framework/tests;
+			sourceTree = "<group>";
+		};
+		A51D0EB120F2DA5F00B55775 /* HexFiendlingMobile */ = {
+			isa = PBXGroup;
+			children = (
+				A51D0EB220F2DA5F00B55775 /* AppDelegate.h */,
+				A51D0EB320F2DA5F00B55775 /* AppDelegate.m */,
+				A51D0EB520F2DA5F00B55775 /* ViewController.h */,
+				A51D0EB620F2DA5F00B55775 /* ViewController.m */,
+				A51D0EB820F2DA5F00B55775 /* Main.storyboard */,
+				A51D0EBB20F2DA6100B55775 /* Assets.xcassets */,
+				A51D0EBD20F2DA6100B55775 /* LaunchScreen.storyboard */,
+				A51D0EC020F2DA6100B55775 /* Info.plist */,
+				A51D0EC120F2DA6100B55775 /* main.m */,
+			);
+			path = HexFiendlingMobile;
 			sourceTree = "<group>";
 		};
 		A550A7171F7877F8001C79C7 /* hexf */ = {
@@ -1226,6 +1290,7 @@
 				A5EF28D020F187B700CA7B39 /* HFByteArray.h in Headers */,
 				A5EF28D120F187B700CA7B39 /* HFByteSlice.h in Headers */,
 				A5EF28D220F187B700CA7B39 /* HFFunctions.h in Headers */,
+				A51D0ECF20F2DCE500B55775 /* HFHexTextRepresenter.h in Headers */,
 				A5EF28D420F187B700CA7B39 /* HFTypes.h in Headers */,
 				A5EF28DB20F187B700CA7B39 /* HFByteArray_Internal.h in Headers */,
 				A5EF28DE20F187B700CA7B39 /* HFStringEncoding.h in Headers */,
@@ -1370,6 +1435,25 @@
 			productReference = 9408FBFA19DD72DE004F800E /* HexFiend_Framework Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A51D0EAF20F2DA5F00B55775 /* HexFiendlingMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A51D0EC320F2DA6100B55775 /* Build configuration list for PBXNativeTarget "HexFiendlingMobile" */;
+			buildPhases = (
+				A51D0EAC20F2DA5F00B55775 /* Sources */,
+				A51D0EAD20F2DA5F00B55775 /* Frameworks */,
+				A51D0EAE20F2DA5F00B55775 /* Resources */,
+				A51D0EDC20F2DF3300B55775 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A51D0EDB20F2DF3300B55775 /* PBXTargetDependency */,
+			);
+			name = HexFiendlingMobile;
+			productName = HexFiendlingMobile;
+			productReference = A51D0EB020F2DA5F00B55775 /* HexFiendlingMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
 		A550A7151F7877F8001C79C7 /* hexf */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A550A71A1F7877F8001C79C7 /* Build configuration list for PBXNativeTarget "hexf" */;
@@ -1471,6 +1555,9 @@
 					9408FBF919DD72DE004F800E = {
 						CreatedOnToolsVersion = 6.0.1;
 					};
+					A51D0EAF20F2DA5F00B55775 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					A550A7151F7877F8001C79C7 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Manual;
@@ -1501,6 +1588,7 @@
 				D0F6FE0A0FFF679200C609F0 /* Documentation Generation */,
 				9408FBF919DD72DE004F800E /* HexFiend_Framework Tests */,
 				A550A7151F7877F8001C79C7 /* hexf */,
+				A51D0EAF20F2DA5F00B55775 /* HexFiendlingMobile */,
 			);
 		};
 /* End PBXProject section */
@@ -1537,6 +1625,16 @@
 			files = (
 				A57F347C1F1BE7CD00234B94 /* BigResult.txt.gz in Resources */,
 				A57F34781F1BCC4B00234B94 /* BigColumnsResult.txt.gz in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A51D0EAE20F2DA5F00B55775 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51D0EBF20F2DA6100B55775 /* LaunchScreen.storyboard in Resources */,
+				A51D0EBC20F2DA6100B55775 /* Assets.xcassets in Resources */,
+				A51D0EBA20F2DA5F00B55775 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1672,6 +1770,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A51D0EAC20F2DA5F00B55775 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51D0EB720F2DA5F00B55775 /* ViewController.m in Sources */,
+				A51D0EC220F2DA6100B55775 /* main.m in Sources */,
+				A51D0EB420F2DA5F00B55775 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A550A7121F7877F8001C79C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1715,6 +1823,7 @@
 				A51D0E9820F2C21500B55775 /* HFTextRepresenter.m in Sources */,
 				A51D0E8D20F2A40C00B55775 /* HFRepresenterTextViewCallout.m in Sources */,
 				A5EF293120F187B700CA7B39 /* HFBTree.m in Sources */,
+				A51D0ECE20F2DCE200B55775 /* HFHexTextRepresenter.m in Sources */,
 				A5EF293220F187B700CA7B39 /* HFBTreeByteArray.m in Sources */,
 				A5EF293420F187B700CA7B39 /* HFByteArrayProxiedData.m in Sources */,
 				A5EF293520F187B700CA7B39 /* HFAttributedByteArray.m in Sources */,
@@ -1808,6 +1917,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A51D0EDB20F2DF3300B55775 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5EF28C620F187B700CA7B39 /* HexFiend_Framework_iOS */;
+			targetProxy = A51D0EDA20F2DF3300B55775 /* PBXContainerItemProxy */;
+		};
 		A550A7221F787A60001C79C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A550A7151F7877F8001C79C7 /* hexf */;
@@ -1842,6 +1956,22 @@
 				089C165DFE840E0CC02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A51D0EB820F2DA5F00B55775 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A51D0EB920F2DA5F00B55775 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A51D0EBD20F2DA6100B55775 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A51D0EBE20F2DA6100B55775 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		A57F34821F1EF47700234B94 /* Preferences.xib */ = {
@@ -2156,6 +2286,263 @@
 			};
 			name = "Release+CodeSign";
 		};
+		A51D0EC420F2DA6100B55775 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A51D0EC520F2DA6100B55775 /* Debug+CodeSign */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug+CodeSign";
+		};
+		A51D0EC620F2DA6100B55775 /* Debug+MAS */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug+MAS";
+		};
+		A51D0EC720F2DA6100B55775 /* Debug+UnitTests */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug+UnitTests";
+		};
+		A51D0EC820F2DA6100B55775 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A51D0EC920F2DA6100B55775 /* Release+CodeSign */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release+CodeSign";
+		};
+		A51D0ECA20F2DA6100B55775 /* Release+MAS */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HexFiendlingMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridiculousfish.HexFiendlingMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release+MAS";
+		};
 		A550A71B1F7877F8001C79C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2304,6 +2691,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2314,7 +2702,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -2339,6 +2726,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2349,7 +2737,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -2374,6 +2761,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2384,7 +2772,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"$(inherited)",
@@ -2408,6 +2795,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2418,7 +2806,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -2443,6 +2830,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2453,7 +2841,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -2478,6 +2865,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2488,7 +2876,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -2513,6 +2900,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
@@ -2523,7 +2911,6 @@
 				INFOPLIST_FILE = "HexFiend_Framework_iOS-Info.plist";
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_DYLIB_INSTALL_NAME = "@loader_path/../Frameworks/HexFiend.framework/Versions/A/HexFiend";
 				OTHER_CFLAGS = (
 					"-fblocks",
 					"-DHF_NO_PRIVILEGED_FILE_OPERATIONS=1",
@@ -3797,6 +4184,20 @@
 				9408FC0319DD72DF004F800E /* Release */,
 				9408FC0419DD72DF004F800E /* Release+CodeSign */,
 				D053902E1E218CB700F9AAC1 /* Release+MAS */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A51D0EC320F2DA6100B55775 /* Build configuration list for PBXNativeTarget "HexFiendlingMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A51D0EC420F2DA6100B55775 /* Debug */,
+				A51D0EC520F2DA6100B55775 /* Debug+CodeSign */,
+				A51D0EC620F2DA6100B55775 /* Debug+MAS */,
+				A51D0EC720F2DA6100B55775 /* Debug+UnitTests */,
+				A51D0EC820F2DA6100B55775 /* Release */,
+				A51D0EC920F2DA6100B55775 /* Release+CodeSign */,
+				A51D0ECA20F2DA6100B55775 /* Release+MAS */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
