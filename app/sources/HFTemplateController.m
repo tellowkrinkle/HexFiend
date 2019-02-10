@@ -412,8 +412,7 @@
 
 - (BOOL)readUInt32:(uint32_t *)result bits:(NSString *)bits forLabel:(NSString *)label error:(NSString **)error {
     uint32_t rawValue;
-    const BOOL didRead = [self readUInt32:&rawValue forLabel:nil asHex:NO];
-    if (!didRead) {
+    if (![self readUInt32:&rawValue forLabel:nil asHex:NO]) {
         if (error) {
             *error = @"Failed to read uint32 bytes";
         }
@@ -423,8 +422,7 @@
     NSCharacterSet *spaceSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
     NSArray<NSString *> *bitNumbers = [bits componentsSeparatedByString:@","];
     uint32_t val = 0;
-    const unsigned maxBytes = sizeof(val);
-    const unsigned maxBitValue = (maxBytes * 8) - 1;
+    const unsigned maxBitValue = (sizeof(val) * 8) - 1;
     for (NSString *bitStr in bitNumbers) {
         NSString *localBitStr = [bitStr stringByTrimmingCharactersInSet:spaceSet];
         NSString *trimmedString = [localBitStr stringByTrimmingCharactersInSet:numberSet];
