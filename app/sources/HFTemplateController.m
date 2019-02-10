@@ -410,4 +410,45 @@
     [self.currentNode.children addObject:node];
 }
 
+- (BOOL)readUInt32:(uint32_t *)result bits:(NSString *)bits forLabel:(NSString *)label error:(NSString **)error {
+    uint32_t rawValue;
+    const BOOL didRead = [self readUInt32:&rawValue forLabel:nil asHex:NO];
+    if (!didRead) {
+        if (error) {
+            *error = @"Failed to read uint32 bytes";
+        }
+        return NO;
+    }
+    NSCharacterSet *numberSet = NSCharacterSet.decimalDigitCharacterSet;
+    NSCharacterSet *spaceSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
+    NSArray<NSString *> *bitNumbers = [bits componentsSeparatedByString:@","];
+    uint32_t val = 0;
+    const unsigned maxBytes = sizeof(val);
+    const unsigned maxBitValue = (maxBytes * 8) - 1;
+    for (NSString *bitStr in bitNumbers) {
+        NSString *localBitStr = [bitStr stringByTrimmingCharactersInSet:spaceSet];
+        NSString *trimmedString = [localBitStr stringByTrimmingCharactersInSet:numberSet];
+        if (trimmedString.length > 0) {
+            if (error) {
+                *error = [NSString stringWithFormat:@"Bit is not a valid number: %@", localBitStr];
+            }
+            return NO;
+        }
+        const unsigned bitValue = (unsigned)localBitStr.integerValue;
+        if (bitValue > maxBitValue) {
+            if (error) {
+                *error = [NSString stringWithFormat:@"Bit is out of range: %u", bitValue];
+            }
+            return NO;
+        }
+        val = (val << 1) | ((rawValue >> bitValue) & 1);
+    }
+    *result = val;
+    if (label) {
+        NSString *value = [NSString stringWithFormat:@"%" PRIu32, val];
+        [self addNodeWithLabel:label value:value size:sizeof(val)];
+    }
+    return YES;
+}
+
 @end

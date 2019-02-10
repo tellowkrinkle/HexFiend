@@ -503,30 +503,19 @@ DEFINE_COMMAND(entry)
                 Tcl_WrongNumArgs(_interp, 1, objv, "uint32_bits bits [label]");
                 return TCL_ERROR;
             }
-            NSString *bits = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[2], NULL)];
-            NSString *label = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[3], NULL)];
+            NSString *bits = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[1], NULL)];
+            NSString *label = nil;
+            if (objc == 3) {
+                label = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[2], NULL)];
+            }
             uint32_t val;
-            if (![self readUInt32:&val forLabel:nil asHex:NO]) {
-                Tcl_SetObjResult(_interp, Tcl_NewStringObj("Failed to read uint32 bytes", -1));
+            NSString *error = nil;
+            if (![self readUInt32:&val bits:bits forLabel:label error:&error]) {
+                Tcl_SetObjResult(_interp, Tcl_NewStringObj(error.UTF8String, -1));
                 return TCL_ERROR;
             }
-            NSCharacterSet *numberSet = NSCharacterSet.decimalDigitCharacterSet;
-            NSArray<NSString *> *bitNumbers = [bits componentsSeparatedByString:@","];
-            uint32_t newValue = 0;
-            const unsigned maxBitValue = (sizeof(newValue) * 8) - 1;
-            for (NSString *bitStr in bitNumbers) {
-                NSString *trimmedString = [bitStr stringByTrimmingCharactersInSet:numberSet];
-                if (trimmedString.length > 0) {
-                    Tcl_SetObjResult(_interp, Tcl_ObjPrintf("Bit is not a number: %s", bitStr.UTF8String));
-                    return TCL_ERROR;
-                }
-                const unsigned bitValue = (unsigned)bitStr.integerValue;
-                if (bitValue > maxBitValue) {
-                    Tcl_SetObjResult(_interp, Tcl_ObjPrintf("Bit is out of range: %u", bitValue));
-                    return TCL_ERROR;
-                }
-                newValue |= (1 << bitValue);
-            }
+            Tcl_SetObjResult(_interp, Tcl_NewWideIntObj((Tcl_WideInt)val));
+            return TCL_OK;
         }
     }
     return TCL_OK;
