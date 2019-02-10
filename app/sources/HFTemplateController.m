@@ -424,8 +424,15 @@
     uint32_t val = 0;
     const unsigned maxBitValue = (sizeof(val) * 8) - 1;
     NSMutableIndexSet *usedBits = [NSMutableIndexSet indexSet];
+    unsigned index = 0;
     for (NSString *bitStr in bitNumbers) {
         NSString *localBitStr = [bitStr stringByTrimmingCharactersInSet:spaceSet];
+        if (localBitStr.length == 0) {
+            if (error) {
+                *error = [NSString stringWithFormat:@"Invalid empty bit at index %u.", index];
+            }
+            return NO;
+        }
         NSString *trimmedString = [localBitStr stringByTrimmingCharactersInSet:numberSet];
         if (trimmedString.length > 0) {
             if (error) {
@@ -448,6 +455,7 @@
         }
         val = (val << 1) | ((rawValue >> bitValue) & 1);
         [usedBits addIndex:bitValue];
+        index++;
     }
     *result = val;
     if (label) {
