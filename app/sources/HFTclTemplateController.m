@@ -32,7 +32,6 @@ enum command {
     command_int16,
     command_uint8,
     command_int8,
-    command_uint32_bits,
     command_big_endian,
     command_little_endian,
     command_float,
@@ -55,6 +54,10 @@ enum command {
     command_sectionvalue,
     command_zlib_uncompress,
     command_entry,
+    command_uint8_bits,
+    command_uint16_bits,
+    command_uint32_bits,
+    command_uint64_bits,
 };
 
 @interface HFTclTemplateController ()
@@ -77,7 +80,6 @@ DEFINE_COMMAND(uint16)
 DEFINE_COMMAND(int16)
 DEFINE_COMMAND(uint8)
 DEFINE_COMMAND(int8)
-DEFINE_COMMAND(uint32_bits)
 DEFINE_COMMAND(float)
 DEFINE_COMMAND(double)
 DEFINE_COMMAND(macdate)
@@ -100,6 +102,10 @@ DEFINE_COMMAND(endsection)
 DEFINE_COMMAND(sectionvalue)
 DEFINE_COMMAND(zlib_uncompress)
 DEFINE_COMMAND(entry)
+DEFINE_COMMAND(uint8_bits)
+DEFINE_COMMAND(uint16_bits)
+DEFINE_COMMAND(uint32_bits)
+DEFINE_COMMAND(uint64_bits)
 
 @implementation HFTclTemplateController {
     Tcl_Interp *_interp;
@@ -134,7 +140,6 @@ DEFINE_COMMAND(entry)
         CMD(uint8),
         CMD_NAMED("byte", uint8),
         CMD(int8),
-        CMD(uint32_bits),
         CMD(float),
         CMD(double),
         CMD(macdate),
@@ -157,6 +162,10 @@ DEFINE_COMMAND(entry)
         CMD(sectionvalue),
         CMD(zlib_uncompress),
         CMD(entry),
+        CMD(uint8_bits),
+        CMD(uint16_bits),
+        CMD(uint32_bits),
+        CMD(uint64_bits),
     };
 #undef CMD
 #undef CMD_NAMED
@@ -498,9 +507,12 @@ DEFINE_COMMAND(entry)
             [self addEntryWithLabel:label value:value length:lengthPtr offset:offsetPtr];
             break;
         }
-        case command_uint32_bits: {
+        case command_uint8_bits:
+        case command_uint16_bits:
+        case command_uint32_bits:
+        case command_uint64_bits: {
             if (objc < 2 || objc > 3) {
-                Tcl_WrongNumArgs(_interp, 1, objv, "uint32_bits bits [label]");
+                Tcl_WrongNumArgs(_interp, 1, objv, "bits [label]");
                 return TCL_ERROR;
             }
             NSString *bits = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[1], NULL)];
@@ -508,13 +520,23 @@ DEFINE_COMMAND(entry)
             if (objc == 3) {
                 label = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[2], NULL)];
             }
-            uint32_t val;
+            unsigned numBytes = 0;
+            switch (command) {
+                case command_uint8_bits: numBytes = 1; break;
+                case command_uint16_bits: numBytes = 2; break;
+                case command_uint32_bits: numBytes = 4; break;
+                case command_uint64_bits: numBytes = 8; break;
+                default:
+                    Tcl_SetObjResult(_interp, Tcl_NewStringObj("This shouldn't happen.", -1));
+                    return TCL_ERROR;
+            }
+            uint64_t val;
             NSString *error = nil;
-            if (![self readUInt32:&val bits:bits forLabel:label error:&error]) {
+            if (![self readBits:bits byteCount:numBytes forLabel:label result:&val error:&error]) {
                 Tcl_SetObjResult(_interp, Tcl_NewStringObj(error.UTF8String, -1));
                 return TCL_ERROR;
             }
-            Tcl_SetObjResult(_interp, Tcl_NewWideIntObj((Tcl_WideInt)val));
+            Tcl_SetObjResult(_interp, tcl_obj_from_uint64(val));
             return TCL_OK;
         }
     }
