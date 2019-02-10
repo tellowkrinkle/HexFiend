@@ -423,6 +423,7 @@
     NSArray<NSString *> *bitNumbers = [bits componentsSeparatedByString:@","];
     uint32_t val = 0;
     const unsigned maxBitValue = (sizeof(val) * 8) - 1;
+    NSMutableIndexSet *usedBits = [NSMutableIndexSet indexSet];
     for (NSString *bitStr in bitNumbers) {
         NSString *localBitStr = [bitStr stringByTrimmingCharactersInSet:spaceSet];
         NSString *trimmedString = [localBitStr stringByTrimmingCharactersInSet:numberSet];
@@ -439,7 +440,14 @@
             }
             return NO;
         }
+        if ([usedBits containsIndex:bitValue]) {
+            if (error) {
+                *error = [NSString stringWithFormat:@"Bit already used: %u", bitValue];
+            }
+            return NO;
+        }
         val = (val << 1) | ((rawValue >> bitValue) & 1);
+        [usedBits addIndex:bitValue];
     }
     *result = val;
     if (label) {
