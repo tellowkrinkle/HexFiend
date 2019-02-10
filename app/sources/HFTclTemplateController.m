@@ -32,6 +32,7 @@ enum command {
     command_int16,
     command_uint8,
     command_int8,
+    command_uint32_bits,
     command_big_endian,
     command_little_endian,
     command_float,
@@ -76,6 +77,7 @@ DEFINE_COMMAND(uint16)
 DEFINE_COMMAND(int16)
 DEFINE_COMMAND(uint8)
 DEFINE_COMMAND(int8)
+DEFINE_COMMAND(uint32_bits)
 DEFINE_COMMAND(float)
 DEFINE_COMMAND(double)
 DEFINE_COMMAND(macdate)
@@ -132,6 +134,7 @@ DEFINE_COMMAND(entry)
         CMD(uint8),
         CMD_NAMED("byte", uint8),
         CMD(int8),
+        CMD(uint32_bits),
         CMD(float),
         CMD(double),
         CMD(macdate),
@@ -495,6 +498,36 @@ DEFINE_COMMAND(entry)
             [self addEntryWithLabel:label value:value length:lengthPtr offset:offsetPtr];
             break;
         }
+        case command_uint32_bits: {
+            if (objc < 2 || objc > 3) {
+                Tcl_WrongNumArgs(_interp, 1, objv, "uint32_bits bits [label]");
+                return TCL_ERROR;
+            }
+            NSString *bits = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[2], NULL)];
+            NSString *label = [NSString stringWithUTF8String:Tcl_GetStringFromObj(objv[3], NULL)];
+            uint32_t val;
+            if (![self readUInt32:&val forLabel:nil asHex:NO]) {
+                Tcl_SetObjResult(_interp, Tcl_NewStringObj("Failed to read uint32 bytes", -1));
+                return TCL_ERROR;
+            }
+            NSCharacterSet *numberSet = NSCharacterSet.decimalDigitCharacterSet;
+            NSArray<NSString *> *bitNumbers = [bits componentsSeparatedByString:@","];
+            uint32_t newValue = 0;
+            const unsigned maxBitValue = (sizeof(newValue) * 8) - 1;
+            for (NSString *bitStr in bitNumbers) {
+                NSString *trimmedString = [bitStr stringByTrimmingCharactersInSet:numberSet];
+                if (trimmedString.length > 0) {
+                    Tcl_SetObjResult(_interp, Tcl_ObjPrintf("Bit is not a number: %s", bitStr.UTF8String));
+                    return TCL_ERROR;
+                }
+                const unsigned bitValue = (unsigned)bitStr.integerValue;
+                if (bitValue > maxBitValue) {
+                    Tcl_SetObjResult(_interp, Tcl_ObjPrintf("Bit is out of range: %u", bitValue));
+                    return TCL_ERROR;
+                }
+                newValue |= (1 << bitValue);
+            }
+        }
     }
     return TCL_OK;
 }
@@ -508,11 +541,11 @@ DEFINE_COMMAND(entry)
         default:
             break;
     }
-    int asHex = 0;
+    int asHexFlag = 0;
     NSString *label = nil;
     Tcl_Obj **extraArgs = NULL;
     Tcl_ArgvInfo argInfoTable[] = {
-        {TCL_ARGV_CONSTANT, "-hex", (void*)1, &asHex, "display as hexadecimal", NULL},
+        {TCL_ARGV_CONSTANT, "-hex", (void*)1, &asHexFlag, "display as hexadecimal", NULL},
         TCL_ARGV_AUTO_HELP,
         TCL_ARGV_TABLE_END,
     };
@@ -520,6 +553,7 @@ DEFINE_COMMAND(entry)
     if (err != TCL_OK) {
         return err;
     }
+    const BOOL asHex = asHexFlag == 1;
     if (extraArgs && objc > 1) {
         for (int i = 1; i < objc; i++) {
             const char *arg = Tcl_GetStringFromObj(extraArgs[i], NULL);
@@ -556,7 +590,7 @@ DEFINE_COMMAND(entry)
         }
         case command_uint32: {
             uint32_t val;
-            if (![self readUInt32:&val forLabel:label asHex:asHex == 1]) {
+            if (![self readUInt32:&val forLabel:label asHex:asHex]) {
                 Tcl_SetObjResult(_interp, Tcl_NewStringObj("Failed to read uint32 bytes", -1));
                 return TCL_ERROR;
             }
@@ -583,7 +617,7 @@ DEFINE_COMMAND(entry)
         }
         case command_uint16: {
             uint16_t val;
-            if (![self readUInt16:&val forLabel:label asHex:asHex == 1]) {
+            if (![self readUInt16:&val forLabel:label asHex:asHex]) {
                 Tcl_SetObjResult(_interp, Tcl_NewStringObj("Failed to read uint16 bytes", -1));
                 return TCL_ERROR;
             }
@@ -601,7 +635,7 @@ DEFINE_COMMAND(entry)
         }
         case command_uint8: {
             uint8_t val;
-            if (![self readUInt8:&val forLabel:label asHex:asHex == 1]) {
+            if (![self readUInt8:&val forLabel:label asHex:asHex]) {
                 Tcl_SetObjResult(_interp, Tcl_NewStringObj("Failed to read uint8 bytes", -1));
                 return TCL_ERROR;
             }
