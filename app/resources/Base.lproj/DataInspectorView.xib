@@ -49,6 +49,9 @@
                                             <menuItem title="UTF-8" id="94">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
+                                            <menuItem title="Shift JIS" id="Jqm-A9-os1">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
                                             <menuItem title="SLEB128" id="Zh9-Vv-mpr">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>

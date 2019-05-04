@@ -17,6 +17,7 @@ enum InspectorType_t {
     eInspectorTypeUnsignedInteger,
     eInspectorTypeFloatingPoint,
     eInspectorTypeUTF8Text,
+    eInspectorTypeShiftJISText,
     eInspectorTypeSLEB128,
     eInspectorTypeULEB128,
     eInspectorTypeBinary,

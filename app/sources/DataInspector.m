@@ -371,6 +371,7 @@ static NSAttributedString *inspectionSuccess(NSString *s) {
             }
             break;
         case eInspectorTypeUTF8Text:
+        case eInspectorTypeShiftJISText:
             // MAX_EDITABLE_BYTE_COUNT already checked above
             break;
         case eInspectorTypeSLEB128:
@@ -431,6 +432,14 @@ static NSAttributedString *inspectionSuccess(NSString *s) {
             if(length > MAX_EDITABLE_BYTE_COUNT) return inspectionError(InspectionErrorTooMuch);
             NSString *ret = [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
             if(ret == nil) return inspectionError(@"(bytes are not valid UTF-8)");
+            if(outIsError) *outIsError = NO;
+            return inspectionSuccess(ret);
+        }
+        case eInspectorTypeShiftJISText: {
+            if(length == 0) return inspectionError(InspectionErrorNoData);
+            if(length > MAX_EDITABLE_BYTE_COUNT) return inspectionError(InspectionErrorTooMuch);
+            NSString *ret = [[NSString alloc] initWithBytes:bytes length:length encoding:NSShiftJISStringEncoding];
+            if(ret == nil) return inspectionError(@"(bytes are not valid Shift JIS)");
             if(outIsError) *outIsError = NO;
             return inspectionSuccess(ret);
         }
@@ -654,11 +663,11 @@ static BOOL stringRangeIsNullBytes(NSString *string, NSRange range) {
         /* Return triumphantly! */
         return YES;
     }
-    else if (inspectorType == eInspectorTypeUTF8Text) {
+    else if (inspectorType == eInspectorTypeUTF8Text || inspectorType == eInspectorTypeShiftJISText) {
         /*
-         * If count is longer than the UTF-8 encoded value, succeed and zero fill
+         * If count is longer than the encoded value, succeed and zero fill
          * the rest of outbuf. It's obvious behavior and probably more useful than
-         * only allowing an exact length UTF-8 replacement.
+         * only allowing an exact length replacement.
          *
          * By the same token, allow ending zero bytes to be dropped, so re-editing
          * the same text doesn't fail due to the null bytes we added at the end.
@@ -670,10 +679,11 @@ static BOOL stringRangeIsNullBytes(NSString *string, NSRange range) {
         BOOL ret;
         NSRange fullRange = NSMakeRange(0, [value length]);
         NSRange leftover;
+        NSUInteger encoding = inspectorType == eInspectorTypeUTF8Text ? NSUTF8StringEncoding : NSShiftJISStringEncoding;
         
         // Speculate that 256 chars is enough.
         ret = [value getBytes:buffer maxLength:count < sizeof(buffer_) ? count : sizeof(buffer_) usedLength:&used
-                     encoding:NSUTF8StringEncoding options:0 range:fullRange remainingRange:&leftover];
+                     encoding:encoding options:0 range:fullRange remainingRange:&leftover];
         
         if(!ret) return NO;
         if(leftover.length == 0 || stringRangeIsNullBytes(value, leftover)) {
@@ -688,10 +698,10 @@ static BOOL stringRangeIsNullBytes(NSString *string, NSRange range) {
         // Buffer wasn't large enough.
         // Don't bother trying to reuse previous conversion, it's small beans anyways.
         
-        if(!outData) return count <= [value lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        if(!outData) return count <= [value lengthOfBytesUsingEncoding:encoding];
         
         buffer = malloc(count);
-        ret = [value getBytes:buffer maxLength:count usedLength:&used encoding:NSUTF8StringEncoding
+        ret = [value getBytes:buffer maxLength:count usedLength:&used encoding:encoding
                       options:0 range:fullRange remainingRange:&leftover];
         ret = ret && (leftover.length == 0 || stringRangeIsNullBytes(value, leftover)) && used <= count;
         if(ret) {
