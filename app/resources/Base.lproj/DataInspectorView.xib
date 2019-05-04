@@ -46,7 +46,7 @@
                                             <menuItem title="Floats" id="69">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="UTF-8" id="94">
+                                            <menuItem title="Text" id="94">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                             <menuItem title="SLEB128" id="Zh9-Vv-mpr">

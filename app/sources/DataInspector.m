@@ -370,7 +370,7 @@ static NSAttributedString *inspectionSuccess(NSString *s) {
                 return inspectionError(InspectionErrorTooMuch);
             }
             break;
-        case eInspectorTypeUTF8Text:
+        case eInspectorTypeText:
             // MAX_EDITABLE_BYTE_COUNT already checked above
             break;
         case eInspectorTypeSLEB128:
@@ -426,7 +426,7 @@ static NSAttributedString *inspectionSuccess(NSString *s) {
                     return length > 16 ? inspectionError(InspectionErrorTooMuch) : inspectionError(InspectionErrorNonPwr2);
             }
             
-        case eInspectorTypeUTF8Text: {
+        case eInspectorTypeText: {
             if(length == 0) return inspectionError(InspectionErrorNoData);
             if(length > MAX_EDITABLE_BYTE_COUNT) return inspectionError(InspectionErrorTooMuch);
             NSString *ret = [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
@@ -654,7 +654,7 @@ static BOOL stringRangeIsNullBytes(NSString *string, NSRange range) {
         /* Return triumphantly! */
         return YES;
     }
-    else if (inspectorType == eInspectorTypeUTF8Text) {
+    else if (inspectorType == eInspectorTypeText) {
         /*
          * If count is longer than the UTF-8 encoded value, succeed and zero fill
          * the rest of outbuf. It's obvious behavior and probably more useful than
