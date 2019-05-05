@@ -401,7 +401,8 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     
     CGSize advance = CGSizeMake(glyphAdvancement, 0);
 
-    const BOOL isVariableByteEncoding = minBytesPerChar != maxBytesPerChar;
+    const uint8_t localMinBytesPerChar = minBytesPerChar;
+    const BOOL isVariableByteEncoding = localMinBytesPerChar != maxBytesPerChar;
     if (isVariableByteEncoding) {
         *resultGlyphCount = 0;
         NSUInteger bytesRemaining = numBytes;
@@ -443,7 +444,10 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
                         }
                         glyphs[glyphIndex].fontIndex = (HFGlyphFontIndex)fontIndex;
                         glyphs[glyphIndex].glyph = strGlyphs[strGlyphIndex];
-                        advances[glyphIndex] = advance;
+                        advances[glyphIndex] = (CGSize){
+                            .width = (advance.width * bytesPerChar) / localMinBytesPerChar,
+                            .height = advance.height
+                        };
                         (*resultGlyphCount)++;
                         glyphIndex++;
                         numGlyphsObtained++;
@@ -459,7 +463,7 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
                     // fill in remaining glyphs
                     for (uint8_t j = trueBytesPerChar; j > numGlyphsObtained; j--) {
                         glyphs[glyphIndex] = emptyGlyph;
-                        advances[glyphIndex] = advance;
+                        advances[glyphIndex] = (CGSize){ 0, 0 };
                         (*resultGlyphCount)++;
                         glyphIndex++;
                     }
@@ -480,7 +484,7 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     
     NSMutableIndexSet *charactersToLoad = nil; //note: in UTF-32 this may have to move to an NSSet
     
-    const uint8_t localBytesPerChar = maxBytesPerChar;
+    const uint8_t localBytesPerChar = localMinBytesPerChar;
     NSUInteger charIndex, numChars = numBytes / localBytesPerChar, byteIndex = 0;
     for (charIndex = 0; charIndex < numChars; charIndex++) {
         NSUInteger character = -1;
