@@ -10,29 +10,31 @@
 #import <HexFiend/HFEncodingManager.h>
 #import <CoreText/CoreText.h>
 
-static NSString *copy1CharStringForByteValue(unsigned long long byteValue, NSUInteger bytesPerChar, HFStringEncoding *encoding) {
+/// byteValue must be big-endian (the character "ac de" should be encoded as 0xacde)
+static NSString *copy1CharStringForByteValue(unsigned long long byteValue, NSUInteger minBytesPerChar, HFStringEncoding *encoding) {
     NSString *result = nil;
-    unsigned char bytes[sizeof byteValue];
-    /* If we are little endian, then the bytesPerChar doesn't matter, because it will all come out the same.  If we are big endian, then it does matter. */
-#if ! __BIG_ENDIAN__
-    *(unsigned long long *)bytes = byteValue;
-#else
-    if (bytesPerChar == sizeof(uint8_t)) {
-        *(uint8_t *)bytes = (uint8_t)byteValue;
-    } else if (bytesPerChar == sizeof(uint16_t)) {
-        *(uint16_t *)bytes = (uint16_t)byteValue;
-    } else if (bytesPerChar == sizeof(uint32_t)) {
-        *(uint32_t *)bytes = (uint32_t)byteValue;
-    } else if (bytesPerChar == sizeof(uint64_t)) {
-        *(uint64_t *)bytes = (uint64_t)byteValue;
-    } else {
-        [NSException raise:NSInvalidArgumentException format:@"Unsupported bytesPerChar of %u", bytesPerChar];
+
+    // Write from the end of the array backwards to take the characters out in the right order
+    // For variable-length encodings we assume that characters will not be null-prefixed (since you can't tell the difference between "00 aa" and "aa", they'll both come in as 0xaa)
+    // Strings will be 0-padded to be at least minBytesPerChar which should take care of 2-byte fixed-width encodings, though it will break on UTF-16LE which represents the character U+10000 as "00d8 00dc" which would come in as 0xd800dc and get interpreted as the 3-byte "d8 00 dc".  To deal with that, we special-case when minBytesPerChar == 2 and force the final length to be divisible by 2 as well.
+    NSUInteger length = 0;
+    unsigned char bytes[sizeof byteValue] = {0};
+    unsigned long long tmp = byteValue;
+    while (tmp) {
+        bytes[sizeof byteValue - length - 1] = tmp & 0xFF;
+        tmp >>= 8;
+        length += 1;
     }
-#endif
+    if (minBytesPerChar > length) {
+        length = minBytesPerChar;
+    }
+    if ((minBytesPerChar == 2) && (length % 2 != 0)) {
+        length += 1;
+    }
 
     /* ASCII is mishandled :( */
     BOOL encodingOK = YES;
-    if (encoding.isASCII && bytesPerChar == 1 && bytes[0] > 0x7F) {
+    if (encoding.isASCII && bytes[7] > 0x7F) {
         encodingOK = NO;
     }
 
@@ -40,7 +42,7 @@ static NSString *copy1CharStringForByteValue(unsigned long long byteValue, NSUIn
     
     /* Now create a string from these bytes */
     if (encodingOK) {
-        result = [encoding stringFromBytes:bytes length:bytesPerChar];
+        result = [encoding stringFromBytes:bytes + sizeof(byteValue) - length length: length];
         
         if ([result length] > 1) {
             /* Try precomposing it */
@@ -81,7 +83,7 @@ static BOOL getGlyphs(CGGlyph *glyphs, NSString *string, CTFontRef inputFont) {
     return result;
 }
 
-static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFGlyph_t *outGlyphs, NSInteger bytesPerChar, HFStringEncoding *encoding, const NSUInteger *charactersToLoad, NSUInteger charactersToLoadCount, CGFloat *outMaxAdvance) {
+static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFGlyph_t *outGlyphs, NSInteger minBytesPerChar, HFStringEncoding *encoding, const NSUInteger *charactersToLoad, NSUInteger charactersToLoadCount, CGFloat *outMaxAdvance) {
     /* If the caller wants the advance, initialize it to 0 */
     if (outMaxAdvance) *outMaxAdvance = 0;
     
@@ -97,7 +99,7 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     /* Loop over all the characters, appending them to our glyph fetching string */
     NSUInteger idx;
     for (idx = 0; idx < charactersToLoadCount; idx++) {
-        NSString *string = copy1CharStringForByteValue(charactersToLoad[idx], bytesPerChar, encoding);
+        NSString *string = copy1CharStringForByteValue(charactersToLoad[idx], minBytesPerChar, encoding);
         if (string == nil) {
             /* This byte value is not represented in this char set (e.g. upper 128 in ASCII) */
             outGlyphs[idx] = invalidGlyph;
@@ -202,7 +204,7 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     /* Now generate our glyphs */
     NEW_ARRAY(NSUInteger, characters, charCount);
     [charactersToLoad getIndexes:characters maxCount:charCount inIndexRange:NULL];
-    generateGlyphs((__bridge CTFontRef)localFonts[0], localFonts, glyphs, maxBytesPerChar, self.encoding, characters, charCount, NULL);
+    generateGlyphs((__bridge CTFontRef)localFonts[0], localFonts, glyphs, minBytesPerChar, self.encoding, characters, charCount, NULL);
     FREE_ARRAY(characters);
     
     /* Replace fonts.  Do this before we insert into the glyph trie, because the glyph trie references fonts that we're just now putting in the fonts array. */
@@ -271,6 +273,8 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     requestedCancel = NO;
     HFGlyphTreeFree(&glyphTable);
     HFGlyphTrieInitialize(&glyphTable, maxBytesPerChar);
+    fonts = nil;
+    fontCache = nil;
 }
 
 - (void)setFont:(HFFont *)font
@@ -411,6 +415,8 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
     
     CGSize advance = CGSizeMake(glyphAdvancement, 0);
 
+    NSMutableIndexSet *charactersToLoad = nil; //note: in UTF-32 this may have to move to an NSSet
+
     const uint8_t localMinBytesPerChar = minBytesPerChar;
     const BOOL isVariableByteEncoding = localMinBytesPerChar != maxBytesPerChar;
     if (isVariableByteEncoding) {
@@ -428,59 +434,47 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
         }
         *numberOfExtraWrappingBytesUsed = 0;
         while (bytesRemaining > 0) {
-            BOOL gotCharacter = NO;
             const unsigned long long dataRemainingBytes = (((unsigned char *)self.data.bytes) + self.data.length) - bytesPtr;
             const uint8_t maxBytesAvailable = (uint8_t)(MIN(dataRemainingBytes, (unsigned long long)maxBytesPerChar));
             const uint8_t originalMaxBytesAvailable = (uint8_t)(MIN(bytesRemaining, maxBytesPerChar));
-            for (uint8_t bytesPerChar = minBytesPerChar; bytesPerChar <= maxBytesAvailable && !gotCharacter; bytesPerChar++) {
-                NSString *mystr = [encoding stringFromBytes:bytesPtr length:bytesPerChar];
-                if (!mystr) {
-                    continue;
-                }
-                NEW_ARRAY(CGGlyph, strGlyphs, mystr.length);
-                CTFontRef baseFont = (__bridge CTFontRef)self.font;
-                CTFontRef font = CFAutorelease(CTFontCreateForString(baseFont, (__bridge CFStringRef)mystr, CFRangeMake(0, mystr.length)));
-                const BOOL gotGlyphs = getGlyphs(strGlyphs, mystr, font);
-                unsigned numGlyphsObtained = 0;
-                if (gotGlyphs) {
-                    NSUInteger fontIndex = [fonts indexOfObject:(__bridge id)font];
-                    if (fontIndex == NSNotFound) {
-                        [fonts addObject:(__bridge id)font];
-                        fontIndex = fonts.count - 1;
+            NSString *mystr = NULL;
+            uint8_t bytesPerChar;
+            NSUInteger charCode = 0;
+            for (bytesPerChar = 1; bytesPerChar <= maxBytesAvailable; bytesPerChar++) {
+                charCode <<= 8;
+                charCode |= bytesPtr[bytesPerChar - 1];
+                if (bytesPerChar >= localMinBytesPerChar) {
+                    if ((mystr = [encoding stringFromBytes:bytesPtr length:bytesPerChar])) {
+                        break;
                     }
-                    for (size_t strGlyphIndex = 0; strGlyphIndex < mystr.length; strGlyphIndex++) {
-                        if (strGlyphs[strGlyphIndex] == 0) {
-                            break;
-                        }
-                        glyphs[glyphIndex].fontIndex = (HFGlyphFontIndex)fontIndex;
-                        glyphs[glyphIndex].glyph = strGlyphs[strGlyphIndex];
-                        advances[glyphIndex] = (CGSize){
-                            .width = (advance.width * bytesPerChar) / localMinBytesPerChar,
-                            .height = advance.height
-                        };
-                        (*resultGlyphCount)++;
-                        glyphIndex++;
-                        numGlyphsObtained++;
-                    }
-                }
-                FREE_ARRAY(strGlyphs);
-                if (numGlyphsObtained == 1) {
-                    const uint8_t trueBytesPerChar = (uint8_t)MIN(bytesPerChar, originalMaxBytesAvailable);
-                    *numberOfExtraWrappingBytesUsed = bytesPerChar - trueBytesPerChar;
-                    bytesRemaining -= trueBytesPerChar;
-                    bytesPtr += trueBytesPerChar;
-                    gotCharacter = YES;
-                    // fill in remaining glyphs
-                    for (uint8_t j = trueBytesPerChar; j > numGlyphsObtained; j--) {
-                        glyphs[glyphIndex] = emptyGlyph;
-                        advances[glyphIndex] = (CGSize){ 0, 0 };
-                        (*resultGlyphCount)++;
-                        glyphIndex++;
-                    }
-                    break;
                 }
             }
-            if (!gotCharacter) {
+            if (mystr) {
+                struct HFGlyph_t glyph = HFGlyphTrieGet(&glyphTable, charCode);
+                if (glyph.glyph == 0 && glyph.fontIndex == 0) {
+                    /* Unloaded glyph, so load it */
+                    if (! charactersToLoad) charactersToLoad = [[NSMutableIndexSet alloc] init];
+                    [charactersToLoad addIndex:charCode];
+                    glyph = emptyGlyph;
+                } else if (glyph.glyph == (uint16_t)-1 && glyph.fontIndex == kHFGlyphFontIndexInvalid) {
+                    /* Missing glyph, so ignore it */
+                    glyph = replacementGlyph;
+                } else {
+                    /* Valid glyph */
+                }
+                glyphs[glyphIndex] = glyph;
+                advances[glyphIndex] = (CGSize){
+                    .width = (advance.width * bytesPerChar) / localMinBytesPerChar,
+                    .height = advance.height
+                };
+                (*resultGlyphCount)++;
+                glyphIndex++;
+
+                const uint8_t trueBytesPerChar = (uint8_t)MIN(bytesPerChar, originalMaxBytesAvailable);
+                *numberOfExtraWrappingBytesUsed = bytesPerChar - trueBytesPerChar;
+                bytesRemaining -= trueBytesPerChar;
+                bytesPtr += trueBytesPerChar;
+            } else {
                 bytesRemaining--;
                 bytesPtr++;
                 glyphs[glyphIndex] = replacementGlyph;
@@ -489,23 +483,19 @@ static void generateGlyphs(CTFontRef baseFont, NSMutableArray *fonts, struct HFG
                 glyphIndex++;
             }
         }
+        if (charactersToLoad) {
+            [self beginLoadGlyphsForCharacters:charactersToLoad];
+        }
         return;
     }
-    
-    NSMutableIndexSet *charactersToLoad = nil; //note: in UTF-32 this may have to move to an NSSet
     
     const uint8_t localBytesPerChar = localMinBytesPerChar;
     NSUInteger charIndex, numChars = numBytes / localBytesPerChar, byteIndex = 0;
     for (charIndex = 0; charIndex < numChars; charIndex++) {
-        NSUInteger character = -1;
-        if (localBytesPerChar == 1) {
-            character = *(const uint8_t *)(bytes + byteIndex);
-        } else if (localBytesPerChar == 2) {
-            character = *(const uint16_t *)(bytes + byteIndex);
-        } else if (localBytesPerChar == 4) {
-            character = *(const uint32_t *)(bytes + byteIndex);	    
-        } else {
-            HFASSERT(0);
+        NSUInteger character = 0;
+        for (int i = 0; i < localBytesPerChar; i++) {
+            character <<= 8;
+            character |= bytes[byteIndex + i];
         }
         
         struct HFGlyph_t glyph = HFGlyphTrieGet(&glyphTable, character);
