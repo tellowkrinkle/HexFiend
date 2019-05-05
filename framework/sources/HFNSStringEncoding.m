@@ -40,7 +40,23 @@
 - (uint8_t)maximumBytesPerCharacter {
     switch (CFStringConvertNSStringEncodingToEncoding(self.encoding)) {
         case kCFStringEncodingUTF8: return 4;
+        case kCFStringEncodingMacJapanese: return 2;
+        case kCFStringEncodingMacChineseTrad: return 2;
+        case kCFStringEncodingMacKorean: return 2;
+        case kCFStringEncodingMacChineseSimp: return 2;
+        case kCFStringEncodingDOSJapanese: return 2;
+        case kCFStringEncodingDOSChineseSimplif: return 2;
+        case kCFStringEncodingDOSKorean: return 2;
+        case kCFStringEncodingDOSChineseTrad: return 2;
+        case kCFStringEncodingShiftJIS_X0213: return 2;
+        case kCFStringEncodingGBK_95: return 2;
+        case kCFStringEncodingGB_18030_2000: return 2;
+        case kCFStringEncodingEUC_JP: return 2;
+        case kCFStringEncodingEUC_CN: return 2;
+        case kCFStringEncodingEUC_TW: return 2;
+        case kCFStringEncodingEUC_KR: return 2;
         case kCFStringEncodingShiftJIS: return 2;
+        case kCFStringEncodingBig5_HKSCS_1999: return 2;
         default: return self.minimumBytesPerCharacter;
     }
 }
